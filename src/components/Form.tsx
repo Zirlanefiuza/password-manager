@@ -2,9 +2,10 @@ import { useState } from 'react';
 
 type FormProps = {
   cancelButton: () => void;
+  toChangeServices: (service: any) => void;
 };
 
-function Form({ cancelButton }: FormProps) {
+function Form({ cancelButton, toChangeServices }: FormProps) {
   const [serviceName, setServiceName] = useState('');
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -19,6 +20,12 @@ function Form({ cancelButton }: FormProps) {
   const validPasswordClass = 'valid-password-check';
   const invalidPasswordClass = 'invalid-password-check';
 
+  const buttonHandleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const serviceNew = { serviceName, login, password, url };
+    toChangeServices(serviceNew);
+  };
+
   const validForm = () => {
     const nameValid = !!serviceName.trim();
     const loginValid = !!login.trim();
@@ -30,7 +37,7 @@ function Form({ cancelButton }: FormProps) {
     setIsButtonVisible(nameValid && loginValid && passwordValid);
   };
   return (
-    <form>
+    <form onSubmit={ (event) => event.preventDefault() }>
       <div>
         <label htmlFor="serviceName">Nome do serviço </label>
         <input
@@ -94,7 +101,12 @@ function Form({ cancelButton }: FormProps) {
           onChange={ (event) => setUrl(event.target.value) }
         />
       </div>
-      <button disabled={ !isButtonVisible }>Cadastrar</button>
+      <button
+        onClick={ buttonHandleSubmit }
+        disabled={ !isButtonVisible }
+      >
+        Cadastrar
+      </button>
       <button onClick={ cancelButton }>Cancelar</button>
     </form>
   );
