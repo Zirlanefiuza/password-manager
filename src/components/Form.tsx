@@ -22,7 +22,7 @@ function Form({ cancelButton, toChangeServices }: FormProps) {
 
   const buttonHandleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const serviceNew   = { serviceName, login, password, url };
+    const serviceNew = { serviceName, login, password, url };
     toChangeServices(serviceNew);
   };
 
